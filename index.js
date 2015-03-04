@@ -146,7 +146,7 @@
   FastDom.prototype.scheduleBatch = function() {
     if (this.scheduled) return;
     this.scheduled = true;
-    raf(this.flush);
+    this.raf(this.flush);
   };
 
   FastDom.prototype.flush = function() {
