@@ -154,10 +154,14 @@
     var start = Date.now();
     var error;
 
+    var readBatchTimeLimit = 13; // Stop running more read jobs if frame took more than this many ms (fudge factor)
+    var writeBatchTimeLimit = 9; // Spend less time on writes assuming browser will need time to process them
+    var deferredTimeLimit = 12;
+
     try {
-      if (this.runBatch(this.reads, start, 13)) {
-        if (this.runBatch(this.writes, start, 9)) {
-          this.runBatch(this.deferred, start, 12);
+      if (this.runBatch(this.reads, start, readBatchTimeLimit)) {
+        if (this.runBatch(this.writes, start, writeBatchTimeLimit)) {
+          this.runBatch(this.deferred, start, deferredTimeLimit);
         }
       }
     } catch (e) {
@@ -178,7 +182,7 @@
   };
 
   /**
-   * Runs given jobs until framelimit (in ms) is reached
+   * Runs given jobs until frameTimeLimit (in ms) is reached
    *
    * We run this inside a try catch
    * so that if any jobs error, we
@@ -187,15 +191,15 @@
    *
    * @private
    */
-  FastDom.prototype.runBatch = function(list, start, framelimit) {
+  FastDom.prototype.runBatch = function(list, start, frameTimeLimit) {
     var job;
     while (job = list.shift()) {
       job.fn.call(job.ctx);
       var took = Date.now() - start;
-      if (took > framelimit) {
-        // If it dropped below 30fps, then it's a jank, so at this point we can junk it all the way and flush the entire queue
+      if (took > frameTimeLimit) {
+        // If it dropped below 30fps, then it's a jank, so at this point we may as well jank it all the way and flush the entire queue
         if (took > 30) {
-          framelimit = 1e10;
+          frameTimeLimit = 1e10;
           continue;
         }
         return false;
