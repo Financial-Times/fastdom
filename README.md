@@ -36,19 +36,13 @@ write
 
 ## Installation
 
-FastDom is CommonJS and AMD compatible, you can install it in one of the following ways:
+In your package.json
 
-``` sh
-$ npm install fastdom
 ```
-``` sh
-$ bower install fastdom
+    "fastdom": "github:Financial-Times/fastdom#v2.1.1"
 ```
-``` sh
-$ component install wilsonpage/fastdom
-```
-or [download](http://github.com/wilsonpage/fastdom/raw/master/index.js).
 
+if you do `npm install fastdom` it will pull a different version that is publised in Npmjs
 ## How it works
 
 FastDom works as a regulatory layer between your app/library and the DOM. By batching DOM access we **avoid unnecessary document reflows and speed up layout perfomance dramatically**.
