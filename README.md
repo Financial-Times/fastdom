@@ -34,15 +34,9 @@ write
 - [Animation example](http://wilsonpage.github.io/fastdom/examples/animation.html)
 - [Aspect ratio example](http://wilsonpage.github.io/fastdom/examples/aspect-ratio.html)
 
-## Installation
+## Usage in your repo
 
-In your package.json
-
-```
-    "fastdom": "github:Financial-Times/fastdom#v2.1.1"
-```
-
-if you do `npm install fastdom` it will pull a different version that is publised in Npmjs
+Pull in a new version of this dependency into your app repo, edit package.json and either npm update or npm install
 ## How it works
 
 FastDom works as a regulatory layer between your app/library and the DOM. By batching DOM access we **avoid unnecessary document reflows and speed up layout perfomance dramatically**.
